@@ -13,30 +13,30 @@ public class Main {
     public static void main(String[] args) {
         new Thread(new AppAlmacen()).start();
 
-        // prueba
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type", "CREATE");
+        /**
+         * ******************************************
+         * ************P R U E B A S*****************
+         ******************************************
+         */
+        try (Socket socket = new Socket("127.0.0.1", 1234); OutputStream outputStream = socket.getOutputStream(); PrintWriter printWriter = new PrintWriter(outputStream, true); InputStream inputStream = socket.getInputStream(); Scanner scanner = new Scanner(inputStream);) {
 
-        JSONArray prods = new JSONArray();
+            ///////////CREATE//////////////
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "CREATE");
 
-        JSONObject prod1 = new JSONObject();
-        prod1.put("id", 1);
-        prod1.put("name", "Televisor Samsung 98\"");
-        prod1.put("desc", "Televisor Samsung Smart TV 98\" QLED 4K QN98Q80CAGXPE (2023)");
-        prod1.put("price", 19999.00);
-        prod1.put("quant", 15);
-        prod1.put("img", "https://hiraoka.com.pe/media/catalog/product/1/3/130880_0.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:");
+            JSONArray prods = new JSONArray();
 
-        prods.put(prod1);
+            JSONObject prod1 = new JSONObject();
+            prod1.put("id", 1);
+            prod1.put("name", "Televisor Samsung 98\"");
+            prod1.put("desc", "Televisor Samsung Smart TV 98\" QLED 4K QN98Q80CAGXPE (2023)");
+            prod1.put("price", 19999.00);
+            prod1.put("quant", 15);
+            prod1.put("img", "https://hiraoka.com.pe/media/catalog/product/1/3/130880_0.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:");
 
-        jsonObject.put("products", prods);
+            prods.put(prod1);
 
-        try {
-            Socket socket = new Socket("127.0.0.1", 1234);
-            OutputStream outputStream = socket.getOutputStream();
-            PrintWriter printWriter = new PrintWriter(outputStream, true);
-            InputStream inputStream = socket.getInputStream();
-            Scanner scanner = new Scanner(inputStream);
+            jsonObject.put("products", prods);
 
             printWriter.println(jsonObject);
 
@@ -48,9 +48,8 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
-            
-            ///////////CREATE//////////////
 
+            ///////////CREATE//////////////
             JSONObject prod2 = new JSONObject();
             prod2.put("id", 1);
             prod2.put("name", "Parlante Harman\"");
@@ -61,9 +60,9 @@ public class Main {
 
             prods.clear();
             prods.put(prod2);
-            
+
             jsonObject.put("products", prods);
-            
+
             printWriter.println(jsonObject);
 
             terminado = false;
@@ -74,23 +73,22 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
-            
-            ///////////READ ALL//////////////
 
+            ///////////READ ALL//////////////
             jsonObject = new JSONObject();
             jsonObject.put("type", "READALL");
 
-            prods = new JSONArray();
+            prods.clear();
 
-            prod1 = new JSONObject();
-            prod1.put("id", 0);
-            prod1.put("name", "");
-            prod1.put("desc", "");
-            prod1.put("price", 0);
-            prod1.put("quant", 0);
-            prod1.put("img", "");
+            JSONObject prodVacio = new JSONObject();
+            prodVacio.put("id", 0);
+            prodVacio.put("name", "");
+            prodVacio.put("desc", "");
+            prodVacio.put("price", 0);
+            prodVacio.put("quant", 0);
+            prodVacio.put("img", "");
 
-            prods.put(prod1);
+            prods.put(prodVacio);
 
             jsonObject.put("products", prods);
 
@@ -104,23 +102,16 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
-            
+
             ///////////READ//////////////
-            
             jsonObject = new JSONObject();
             jsonObject.put("type", "READ");
 
-            prods = new JSONArray();
+            prods.clear();
 
-            prod1 = new JSONObject();
-            prod1.put("id", 100001);
-            prod1.put("name", "");
-            prod1.put("desc", "");
-            prod1.put("price", 0);
-            prod1.put("quant", 0);
-            prod1.put("img", "");
+            prodVacio.put("id", 100001);
 
-            prods.put(prod1);
+            prods.put(prodVacio);
 
             jsonObject.put("products", prods);
 
@@ -134,8 +125,28 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+
+            ///////////UPDATE//////////////
+            jsonObject = new JSONObject();
+            jsonObject.put("type", "UPDATE");
             
-            
+            prod2.put("id", 100001);
+            prod2.put("price", 999.00);
+            prods.clear();
+            prods.put(prod2);
+
+            jsonObject.put("products", prods);
+
+            printWriter.println(jsonObject);
+
+            terminado = false;
+
+            while (!terminado && scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                System.out.println("\nProducto obtenido de UPDATE");
+                System.out.println(line);
+                terminado = true;
+            }
 
         } catch (IOException ex) {
             System.out.println(ex);
