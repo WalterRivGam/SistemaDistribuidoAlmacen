@@ -4,21 +4,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Main {
+    private static Map<Integer, Producto> productosAlmacen = new HashMap<>();
 
     public static void main(String[] args) {
-        new Thread(new AppAlmacen()).start();
+        new Thread(new AppAlmacen(productosAlmacen)).start();
 
         /**
          * ******************************************
          * ************P R U E B A S*****************
          ******************************************
          */
-        try (Socket socket = new Socket("127.0.0.1", 1234); OutputStream outputStream = socket.getOutputStream(); PrintWriter printWriter = new PrintWriter(outputStream, true); InputStream inputStream = socket.getInputStream(); Scanner scanner = new Scanner(inputStream);) {
+        
+        try (Socket socket = new Socket("127.0.0.1", 5000); OutputStream outputStream = socket.getOutputStream(); PrintWriter printWriter = new PrintWriter(outputStream, true); InputStream inputStream = socket.getInputStream(); Scanner scanner = new Scanner(inputStream);) {
 
             ///////////CREATE//////////////
             JSONObject jsonObject = new JSONObject();
@@ -48,6 +52,9 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+            
+            System.out.println("Productos almacen luego de CREATE:");
+            System.out.println(productosAlmacen);
 
             ///////////CREATE//////////////
             JSONObject prod2 = new JSONObject();
@@ -73,6 +80,9 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+            
+            System.out.println("Productos almacen luego de CREATE:");
+            System.out.println(productosAlmacen);
 
             ///////////READ ALL//////////////
             jsonObject = new JSONObject();
@@ -102,6 +112,9 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+            
+            System.out.println("Productos almacen luego de READALL:");
+            System.out.println(productosAlmacen);
 
             ///////////READ//////////////
             jsonObject = new JSONObject();
@@ -125,6 +138,9 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+            
+            System.out.println("Productos almacen luego de READ:");
+            System.out.println(productosAlmacen);
 
             ///////////UPDATE//////////////
             jsonObject = new JSONObject();
@@ -147,10 +163,38 @@ public class Main {
                 System.out.println(line);
                 terminado = true;
             }
+            
+            System.out.println("Productos almacen luego de UPDATE:");
+            System.out.println(productosAlmacen);
+            
+            ///////////DELETE//////////////
+            jsonObject = new JSONObject();
+            jsonObject.put("type", "DELETE");
+
+            prods.clear();
+            prods.put(prodVacio);
+
+            jsonObject.put("products", prods);
+
+            printWriter.println(jsonObject);
+
+            terminado = false;
+
+            while (!terminado && scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                System.out.println("\nProducto obtenido de DELETE");
+                System.out.println(line);
+                terminado = true;
+            }
+            
+            System.out.println("Productos almacen luego de DELETE:");
+            System.out.println(productosAlmacen);
 
         } catch (IOException ex) {
             System.out.println(ex);
         }
+        
+        
 
     }
 

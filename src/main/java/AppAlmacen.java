@@ -13,15 +13,19 @@ import org.json.JSONObject;
 
 public class AppAlmacen implements Runnable {
 
-    private Map<Integer, Producto> productosAlmacen = new HashMap<>();
-    private int puerto = 1234;
+    private Map<Integer, Producto> productosAlmacen;
+    private int puerto = 5000;
     private static int idProd = 100000;
+
+    public AppAlmacen(Map<Integer, Producto> productosAlmacen) {
+        this.productosAlmacen = productosAlmacen;
+    }
 
     @Override
     public void run() {
+        System.out.printf("Escuchando en el puerto %d...\n", puerto);
+        
         try (ServerSocket serverSocket = new ServerSocket(puerto); Socket socket = serverSocket.accept(); InputStream inputStream = socket.getInputStream(); OutputStream outputStream = socket.getOutputStream(); Scanner scanner = new Scanner(inputStream); PrintWriter printWriter = new PrintWriter(outputStream, true);) {
-
-            System.out.printf("Escuchando en el puerto %d...\n", puerto);
 
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
@@ -58,14 +62,24 @@ public class AppAlmacen implements Runnable {
 
                     printWriter.println(jsonObj);
 
-                }
-                if (type.equals("UPDATE")) {
+                } else if (type.equals("UPDATE")) {
                     JSONArray productosJSON = jsonObj.getJSONArray("products");
                     JSONObject productoJSON = productosJSON.getJSONObject(0);
 
                     Producto producto = new Producto(productoJSON);
 
                     productosAlmacen.put(producto.getId(), producto);
+
+                    printWriter.println(jsonObj);
+
+                } else if (type.equals("DELETE")) {
+                    JSONArray productosJSON = jsonObj.getJSONArray("products");
+                    JSONObject productoJSON = productosJSON.getJSONObject(0);
+                    int id = productoJSON.getInt("id");
+                    Producto prod = productosAlmacen.remove(id);
+
+                    productoJSON = new JSONObject(prod);
+                    productosJSON.put(0, productoJSON);
 
                     printWriter.println(jsonObj);
 
