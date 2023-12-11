@@ -1,1 +1,2 @@
+Producto{id=100001, name=Parlante Harman", desc=Parlante Harman Kardon Onyx Studio 8 Negro, quant=27, price=849.0, img=https://hiraoka.com.pe/media/catalog/product/1/3/130284-1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:}
 Producto{id=100000, name=Televisor Samsung 98", desc=Televisor Samsung Smart TV 98" QLED 4K QN98Q80CAGXPE (2023), quant=15, price=19999.0, img=https://hiraoka.com.pe/media/catalog/product/1/3/130880_0.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:}

@@ -33,7 +33,7 @@ public class Archivo {
             FileWriter fileWriter = new FileWriter(nombre_archivo);
 
             for (Producto producto : productos.values()) {
-                fileWriter.write(producto.toString());
+                fileWriter.write(producto.toString() + "\n");
             }
             
             fileWriter.close();

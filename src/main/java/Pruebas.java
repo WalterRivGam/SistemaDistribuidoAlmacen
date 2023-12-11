@@ -52,7 +52,7 @@ public class Pruebas {
                 terminado = true;
             }
 
-/*
+
             ///////////CREATE//////////////
             JSONObject prod2 = new JSONObject();
             prod2.put("id", 1);
@@ -78,9 +78,7 @@ public class Pruebas {
                 terminado = true;
             }
 
-            System.out.println("Productos almacen luego de CREATE:");
-            System.out.println(productosAlmacen);
-
+/*
             ///////////READ ALL//////////////
             jsonObject = new JSONObject();
             jsonObject.put("type", "READALL");
