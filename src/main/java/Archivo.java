@@ -1,7 +1,10 @@
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Archivo {
 
@@ -23,5 +26,21 @@ public class Archivo {
         for (Producto producto : productos.values()) {
             System.out.println(producto);
         }
+    }
+
+    public static void guardar(String nombre_archivo, Map<Integer, Producto> productos) {
+        try {
+            FileWriter fileWriter = new FileWriter(nombre_archivo);
+
+            for (Producto producto : productos.values()) {
+                fileWriter.write(producto.toString());
+            }
+            
+            fileWriter.close();
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
     }
 }

@@ -1,4 +1,14 @@
-Main.class
-AppAlmacen.class
-Archivo.class
+Conector.class
+AppLider.class
+ManejadorNodo.class
 Producto.class
+IniciarNodo5.class
+IniciarNodo2.class
+Nodo.class
+IniciarNodo1.class
+Archivo.class
+Pruebas.class
+Estado.class
+IniciarNodo3.class
+AppSeguidor.class
+IniciarNodo4.class
