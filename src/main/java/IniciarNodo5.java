@@ -7,6 +7,8 @@ public class IniciarNodo5 {
     private static Map<Integer, Producto> productosAlmacen = new HashMap<>();
 
     public static void main(String[] args) {
+        
+        Producto.crearProductosIniciales(productosAlmacen);
 
         int puerto = 5004;
         Estado estado = Estado.SEGUIDOR;
