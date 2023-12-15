@@ -59,6 +59,8 @@ public class AppLider implements Runnable {
 
         try (ServerSocket serverSocket = new ServerSocket(puerto); Socket socket = serverSocket.accept(); InputStream inputStream = socket.getInputStream(); OutputStream outputStream = socket.getOutputStream(); Scanner scanner = new Scanner(inputStream); PrintWriter printWriter = new PrintWriter(outputStream, true);) {
 
+            System.out.println("Conexión establecida con el cliente");
+            
             while (scanner.hasNextLine()) {
                 String comando = scanner.nextLine();
                 
